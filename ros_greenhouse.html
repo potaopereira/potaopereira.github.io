@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" href="jemdoc.css" type="text/css" />
+<title></title>
+<!-- MathJax -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async>
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+	  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+<!-- End MathJax -->
+</head>
+<body>
+<table summary="Table for page layout." id="tlayout">
+<tr valign="top">
+<td id="layout-menu">
+<div class="menu-category">menu</div>
+<div class="menu-item"><a href="index.html">Home</a></div>
+<div class="menu-item"><a href="cv.html">CV</a></div>
+<div class="menu-item"><a href="publications.html">Publications</a></div>
+<div class="menu-item"><a href="geometric-control.html">Geometric&nbsp;Control</a></div>
+<div class="menu-item"><a href="mechanics.html">Mechanics</a></div>
+<div class="menu-item"><a href="code.html">Code</a></div>
+<div class="menu-item"><a href="mssimulator.html">Mechanical&nbsp;Sys.&nbsp;Simulator</a></div>
+<div class="menu-item"><a href="ros_greenhouse.html" class="current">ROS&nbsp;Projects</a></div>
+</td>
+<td id="layout-content">
+<h1>Project to control the temperature of a greenhouse using ROS</h1>
+<ul>
+<li><p>The project is done in c++ and it can be cloned from this <a href="https://github.com/potaopereira/greenhouse_temperature_control" target=&ldquo;blank&rdquo;>repository</a></p>
+</li>
+<li><p>To compile and run the project: make</p>
+</li>
+</ul>
+<h1>How to run application</h1>
+<div class="infoblock">
+<div class="blockcontent">
+<p>make</p>
+</div></div>
+<p>1. It will create the image
+2. It will create the container
+3. It will build the project using colcon_build
+4. It will call the launch file that starts all the necessary nodes</p>
+<p>When you are finished</p>
+<div class="infoblock">
+<div class="blockcontent">
+<p>make stop_container</p>
+</div></div>
+<h1>To generate documentation</h1>
+<div class="infoblock">
+<div class="blockcontent">
+<p>make &ndash;directory=doxygen</p>
+</div></div>
+<h1>Controlling the Temperature of a Greenhouse</h1>
+<p><img src="illustrations/workspace-greenhouse/images/greenhouse.png" width="490px" height="431px" alt="greenhouse model" /></p>
+<p>In order to control the temperature of a greenhouse, we create four nodes:
+1. One node for the controller, which will be listening to the temperature sensors topics
+2. Two nodes for the two temperature sensors
+3. A gui node to monitor the temperature progress and change useful controller parameters</p>
+<p>Requirements:
+1. If no temperature readings are available, the controller tells the window to be closed</p>
+<h1>Changing target temperature</h1>
+<p><img src="illustrations/workspace-greenhouse/images/target-position-changed.gif" width="900px" height="548px" alt="changing the target temperature" /></p>
+<p>Notice how the window openness changes throughtout the day, since the heat exchange (due to the sun exposure and the temperature gradient) also changes throughout the day.</p>
+<h1>Changing the PWM period</h1>
+<p><img src="illustrations/workspace-greenhouse/images/change-pwm-period.gif" width="900px" height="548px" alt="changing the pwm period" /></p>
+<p>When choosing a smaller pwm period, the window set of available positions is smaller, and the command looks more &ldquo;staircase-like&rdquo;. Controlling the temperature with a smalle PWM period is still possible nonetheless.</p>
+<h1>Node Graph</h1>
+<h2>Without the simulator</h2>
+<p><img src="illustrations/workspace-greenhouse/images/controller-and-sensors-diagram.png" width="900px" height="92px" alt="node graph without simulator" /></p>
+<h2>Without the simulator</h2>
+<p><img src="illustrations/workspace-greenhouse/images/simulator.png" width="900px" height="50px" alt="node graph with simulator" /></p>
+</td>
+</tr>
+</table>
+</body>
+</html>

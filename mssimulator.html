@@ -27,18 +27,90 @@ MathJax.Hub.Config({
 <div class="menu-item"><a href="geometric-control.html">Geometric&nbsp;Control</a></div>
 <div class="menu-item"><a href="mechanics.html">Mechanics</a></div>
 <div class="menu-item"><a href="code.html">Code</a></div>
-<div class="menu-item"><a href="mssimulator.html" class="current">MSSim</a></div>
+<div class="menu-item"><a href="mssimulator.html" class="current">Mechanical&nbsp;Sys.&nbsp;Simulator</a></div>
+<div class="menu-item"><a href="ros_greenhouse.html">ROS&nbsp;Projects</a></div>
 </td>
 <td id="layout-content">
 <h1>AppImage of Mechnical Systems Simulator</h1>
 <ul>
-<li><p><a href="./documents_public/gui.AppImage" target=&ldquo;blank&rdquo;>Download AppImage</a></p>
+<li><p><a href="illustrations/rigid-bodies-2d/gui-x86_64.AppImage" target=&ldquo;blank&rdquo;>Download AppImage</a> (for Linux)</p>
+</li>
+<li><p>Download the AppImage and make it executable</p>
+</li>
+<li><p>All the examples showned below can then be played with, and modified</p>
+</li>
+<li><p>The project is done in c++ and it can be cloned from <a href="https://github.com/potaopereira/mechanical_sys_simulator_2d" target=&ldquo;blank&rdquo;>repository</a></p>
+</li>
+<li><p>To compile and run the project: make</p>
+</li>
+<li><p>To generate the documentation: make &ndash;directory=doxygen</p>
+</li>
+<li><p>To generate the AppImage: make &ndash;directory=appimage</p>
 </li>
 </ul>
+<h2>Features</h2>
+<ul>
+<li><p>You can change geometric parameters (lengths, angles, etc) of the available mechanical systems</p>
+</li>
+<li><p>You can change the dynamic parameters (masses and inertias) of the rigid bodies</p>
+</li>
+<li><p>You can plot the path of a point of any rigid body</p>
+</li>
+<li><p>You can see the net force and net torque applied on each rigid body</p>
+</li>
+</ul>
+<h2>One ball and one ellipse (same mass and inertia), on a non-sliding surface</h2>
+<p><img src="illustrations/rigid-bodies-2d/ball-vs-ellipse-on-slope.gif" width="1080px" height="658px" alt="ball vs ellipse on slope" /></p>
+<h2>If the ellipse is too flat, it does not fall</h2>
+<p><img src="illustrations/rigid-bodies-2d/ball-vs-flatellipse-on-slope.gif" width="1080px" height="658px" alt="ball vs super-flat ellipse on slope" /></p>
+<h2>Two ellipses, one sliding and the other not</h2>
+<p><img src="illustrations/rigid-bodies-2d/sliding-vs-nosliding.gif" width="1080px" height="658px" alt="sliding vs nosliding ball on slope" /></p>
+<h2>A ball on a superellipse</h2>
+<p><img src="illustrations/rigid-bodies-2d/point-on-superellipse.gif" width="1080px" height="658px" alt="point mass on surperllipse" /></p>
+<p>Notice how the force excerted by the surface is larger when the curvature is larger.</p>
+<h2>Two ellipses coupled together and on non-sliding surfaces</h2>
+<p><img src="illustrations/rigid-bodies-2d/balls-on-slopes.gif" width="1080px" height="658px" alt="balls on slopes" /></p>
+<p>Notice how the energy is exchanged from one rigid body to the other: the internal forces do not add or remove any energy, but they can take energy from one rigid body and pass it onto the others.</p>
+<h2>Two ellipses on an ellipse surface</h2>
+<p><img src="illustrations/rigid-bodies-2d/ellipse-on-ellipse.gif" width="1080px" height="658px" alt="ellipse on ellipse" /></p>
+<p>Gravity is a potential force: that means the work exerted by gravity on a rigid body does not depend on the path described by that rigid body: it only depends on the initial and final positions of the rigid body. This explains the periodic behaviour observed, where gravity adds and removes energy to the rigid bodies, as they go up and down the surface.</p>
+<h2>A bar pendulum</h2>
+<p><img src="illustrations/rigid-bodies-2d/bar-pendulum.gif" width="1080px" height="658px" alt="bar pendulum" /></p>
+<p>For some choice of parameters a bar pendulum is going to be subject to incredible forces, and in practice it will break</p>
 <h2>Description</h2>
-<p>A mechanical system is a collection of rigid bodies.</p>
+<p>A mechanical system is a collection of rigid bodies, which are coupled to each other, and where the coupling is described by some constraints.</p>
 <p>Each rigid follows the equations of motion where the change in linear momentum is equal to the net force applied on the rigid body, and the change in angular momentum is given by the net torque applied on the rigid body.</p>
-<p>The net wrench can be decompose into a input component, and an internal component. The internal component does not add or remove energy to the system, and it is the internal component that guarantees that the mechanical system respect the constraints regardless of the input wrench, the pose and the the twist of the mechanical system</p>
+<p>The net wrench can be decompose into a input component, and an internal component. The internal component does not add or remove energy to the system, and it is the internal component that guarantees that the mechanical system respect the constraints regardless of the input wrench, the pose and the the twist of the mechanical system.</p>
+<p>The pose of a rigid body \(P \in R^{3} \times SO(3)\) is composed of a linear component \(p \in R^{3}\) and an angular component \(R \in SO(3)\) (a rotation matrix).
+The twist of a rigid body \(V \in R^{3} \times R^{3}\) is composed of a linear component \(v \in R^{3}\) and an angular component \(\omega \in R^{3}\).
+Finally, the wrench applied on a rigid body \(W \in R^{3} \times R^{3}\) is composed of a linear component \(f \in R^{3}\) (a force) and an angular component \(\tau \in R^{3}\) (a torque).</p>
+<p>With the later in mind, the kinematic equations can then be expressed by</p>
+<p style="text-align:center">
+\[
+    \dot{p} = v, \\
+    \dot{R} = R S(\omega),
+\]
+</p><p>and the dynamic equations can be expressed by</p>
+<p style="text-align:center">
+\[
+    \dot{L} = \frac{d}{dt} (m v) = F_{\text{net}} = F_{\text{input}} + F_{\text{internal}}, \\
+    \dot{H} = \frac{d}{dt} (R J \omega) = R \tau_{\text{net}} = R (\tau_{\text{input}} + \tau_{\text{internal}}),
+\]
+</p><p>where \(L\) corresponds to the linear momentum (as such, \(\dot{L}\) corresponds to the change in the linear momentum) and \(H\) corresponds to the the angular momentum (as such, \(\dot{H}\) corresponds to the change in the angular momentum).</p>
+<p>A mechanical system is subject to constraints</p>
+<p style="text-align:center">
+\[
+    c(P_1, \ldots, P_N) = 0_m,
+\]
+</p><p>which describe how the rigid bodies are coupled to each other.</p>
+<p>The internal wrenches can then be found by requiring that</p>
+<p style="text-align:center">
+\[
+    \Sigma V_i^{T} W_{i, \text{internal}}  = 0, \\
+    \frac{d^{2}}{dt^{2}} c(P_1, \ldots, P_N) = 0_m,
+\]
+</p><p>where the first condition guarantees that the internal wrenches do not add or remove energy to the system (energy can flow from one rigid body to another though), while the second implies that the constraints will be met in time.</p>
+<p>A mechanical system can also be subject to contact constraints, where a point of the rigid body is required to move (with or without sliding) on a surface</p>
 </td>
 </tr>
 </table>
